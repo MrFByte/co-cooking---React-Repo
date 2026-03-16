@@ -1,4 +1,4 @@
-import BuyMeACoffeeLogo from "../assets/bmc-full-logo-no-background.png";
+// import BuyMeACoffeeLogo from "../assets/bmc-full-logo-no-background.png";
 
 export default function Footer() {
   return (
