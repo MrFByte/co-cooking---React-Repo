@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row md:gap-4 text-sm text-zinc-100">
 
           <ul className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 md:order-1">        
-            <li className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            {/* <li className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               <span className="opacity-80">Made by</span>
               <a
                 href="https://farhanmn.site/"
@@ -29,7 +29,7 @@ export default function Footer() {
               >
                 LinkedIn
               </a>
-            </li>
+            </li> */}
           </ul>
 
           <ul className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 md:order-3">
@@ -50,7 +50,7 @@ export default function Footer() {
 
             <li>
               <div className="flex items-center justify-center gap-2 text-sm">
-                <span className="hidden sm:inline opacity-80">Support:</span>
+                {/* <span className="hidden sm:inline opacity-80">Support:</span>
                 <a
                   href="https://www.buymeacoffee.com/mrlionbyte"
                   target="_blank"
@@ -63,7 +63,7 @@ export default function Footer() {
                     alt="Buy me a coffee"
                     className="h-6 w-auto object-contain sm:h-8"
                   />
-                </a>
+                </a> */}
               </div>
             </li>
           </ul>
