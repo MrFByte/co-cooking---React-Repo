@@ -9,8 +9,8 @@ import { useTokens } from "@/contexts/TokensContext";
 
 
 interface User {
-  access_token?: string;
-  [key: string]: any;
+    access_token?: string;
+    [key: string]: any;
 }
 
 export default function Extract() {
@@ -24,7 +24,7 @@ export default function Extract() {
 
             if (!user?.access_token) {
                 user = await getOrCreateGuest();
-                }
+            }
             return user;
         } catch (error) {
             toast.error("Faced an error while getting recipe, please refresh and try again.");
@@ -49,19 +49,41 @@ export default function Extract() {
             return;
         }
         const isGuest = !user?.access_token || false;
+
+        // 1. Request Location Access
+        let location: { latitude: number; longitude: number } | null = null;
+        try {
+            const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    enableHighAccuracy: true, // Use exact location as requested
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            });
+            location = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+            console.log("📍 Location captured:", location);
+        } catch (error) {
+            console.warn("⚠️ Location access denied or failed:", error);
+            // We can still proceed, or inform the user.
+            // Requirement said "ask for user location access", which we did.
+        }
+
         try {
             const response = await cookWithIngredients(
                 isGuest,
                 data.ingredients,
-                data.preferences,
+                { ...data.preferences, location }, // Pass location metadata
                 data.language
             );
             cacheRecipeToStorage(response?.data?.recipe);
             setRecipe(response?.data?.recipe);
             updateGuestTokens(response?.data?.tokens_left);
-        } catch (error : any) {
+        } catch (error: any) {
             toast.error(error?.message ?? "Something went wrong");
-        } finally{
+        } finally {
             setIsLoading(false)
         }
     };
@@ -83,7 +105,7 @@ export default function Extract() {
     return (
         <>
             {recipe ? (
-                <CookWithIngredientsUI recipe={recipe} onClose={handleOnClose}/>
+                <CookWithIngredientsUI recipe={recipe} onClose={handleOnClose} />
             ) : (
                 <RecipePromptCard onSubmit={handleRecipeSubmit} isLoading={isLoading} />
             )}
